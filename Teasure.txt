@@ -1,0 +1,81 @@
+#include <iostream>
+#include <ctime>
+#include <windows.h>
+
+using namespace std;
+
+const int n = 10;
+
+int main() {
+	srand(time(NULL));
+	system("color 2");
+	char field[n][n];
+	int lives = 20;
+	char closed = 46, open = 64, treasure = 36;
+
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			field[i][j] = closed;
+		}
+	}
+
+	cout << "generated" << endl;
+
+	bool t[n][n];
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			t[i][j] = 0;
+		}
+	}
+
+	int amount = 0;
+
+	while (amount < n / 2) {
+		int i = rand() % n, j = rand() % n;
+		if (t[i][j] == 0) {
+			t[i][j] = 1;
+			amount++;
+		}
+	}
+
+	cout << "placed" << endl;
+
+	int set = 0;
+
+	while (lives > -1) {
+		system("cls");
+		cout << "Lives: " << lives << endl;
+		cout << "Set: " << set << endl << endl << "  ";
+		for (int r = 0; r < n; r++) {
+			cout << (r + 1) % 10 << ' ';
+		}
+		cout << endl;
+
+		for (int i = 0; i < n; i++) {
+			cout << (i + 1) % 10 << ' ';
+			for (int j = 0; j < n; j++) {
+				cout << field[i][j] << ' ';
+			}
+			cout << endl;
+		}
+		
+		system("cls");
+
+		int k, l;
+		cout << "Input the cell adress: ";
+		cin >> k >> l;
+		k--;
+		l--;
+		if (t[k][l] == 1) {
+			field[k][l] = treasure;
+			set++;
+		}
+		else {
+			field[k][l] = open;
+			lives--;
+		}
+	}
+
+	cout << endl << "Game over!" << endl << "Set: " << set << endl;
+	return 0;
+}
